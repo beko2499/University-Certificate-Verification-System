@@ -1,0 +1,7 @@
+{
+  "name": "University Certificate Verification System",
+  "description": "A web application to verify the authenticity of university certificates. It provides a public interface for verification and an admin panel for managing certificates, universities, and logs.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
