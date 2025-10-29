@@ -34,6 +34,22 @@
       html[dir="rtl"] body {
         font-family: 'Tajawal', sans-serif;
       }
+
+      /* Floating animation for decorative elements */
+      @keyframes float {
+        0% {
+          transform: translateY(0px) rotate(-5deg);
+        }
+        50% {
+          transform: translateY(-20px) rotate(5deg);
+        }
+        100% {
+          transform: translateY(0px) rotate(-5deg);
+        }
+      }
+      .animate-float {
+        animation: float 6s ease-in-out infinite;
+      }
     </style>
   <script type="importmap">
 {

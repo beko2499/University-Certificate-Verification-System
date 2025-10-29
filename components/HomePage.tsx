@@ -15,12 +15,30 @@ const FeatureCard: React.FC<{ icon: React.ReactNode; title: string; description:
   </div>
 );
 
+const DecorativeCertificate: React.FC<{ className?: string }> = ({ className }) => (
+  <div className={`absolute bg-white/10 backdrop-blur-sm rounded-lg shadow-lg ${className}`}>
+    <div className="h-3 bg-white/20 rounded-t-lg"></div>
+    <div className="p-4 space-y-2">
+      <div className="h-2 bg-white/20 rounded"></div>
+      <div className="h-2 w-2/3 bg-white/20 rounded"></div>
+    </div>
+  </div>
+);
+
+
 const HomePage: React.FC<HomePageProps> = ({ setPage, t }) => {
   return (
     <div className="w-full">
       {/* Hero Section */}
-      <div className="bg-sky-700 text-white text-center py-20 px-4 md:py-32">
-        <div className="max-w-4xl mx-auto">
+      <div className="bg-sky-700 text-white text-center py-20 px-4 md:py-32 relative overflow-hidden">
+        
+        {/* Floating decorative certificates */}
+        <DecorativeCertificate className="w-32 h-40 -top-8 -left-12 rotate-[-20deg] animate-float" />
+        <DecorativeCertificate className="w-48 h-60 -bottom-16 -right-20 rotate-[30deg] animate-float [animation-delay:-2s]" />
+        <DecorativeCertificate className="hidden md:block w-24 h-32 top-24 -right-10 rotate-[-10deg] animate-float [animation-delay:-4s]" />
+        <DecorativeCertificate className="hidden lg:block w-40 h-52 bottom-20 -left-24 rotate-[15deg] animate-float [animation-delay:-1s]" />
+
+        <div className="max-w-4xl mx-auto relative z-10">
           <ShieldCheckIcon className="w-24 h-24 mx-auto mb-4" />
           <h1 className="text-4xl md:text-5xl font-extrabold mb-4">{t('heroTitle')}</h1>
           <p className="text-lg md:text-xl text-sky-200 mb-8">

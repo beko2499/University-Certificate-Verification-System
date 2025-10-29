@@ -18,6 +18,18 @@ interface CertificateDetailsProps {
   language: Language;
 }
 
+// Re-using the decorative component from the homepage for a consistent aesthetic, but with a green theme
+const DecorativeCertificate: React.FC<{ className?: string }> = ({ className }) => (
+  <div className={`absolute bg-green-100/50 backdrop-blur-sm rounded-lg shadow-lg ${className}`}>
+    <div className="h-3 bg-green-200/50 rounded-t-lg"></div>
+    <div className="p-4 space-y-2">
+      <div className="h-2 bg-green-200/50 rounded"></div>
+      <div className="h-2 w-2/3 bg-green-200/50 rounded"></div>
+    </div>
+  </div>
+);
+
+
 const CertificateDetails: React.FC<CertificateDetailsProps> = ({ certificate, universities, setPage, t, language }) => {
   const [isDownloading, setIsDownloading] = useState(false);
   const university = certificate ? universities.find(u => u.id === certificate.universityId) : null;
@@ -135,8 +147,14 @@ const CertificateDetails: React.FC<CertificateDetailsProps> = ({ certificate, un
   };
 
   return (
-    <div className="flex-grow flex items-center justify-center p-4">
-      <div>
+    <div className="flex-grow flex items-center justify-center p-4 relative overflow-hidden">
+      
+      {/* Floating decorative certificates for added visual flair */}
+      <DecorativeCertificate className="w-24 h-32 top-16 -left-6 rotate-[-20deg] animate-float [animation-delay:-2s]" />
+      <DecorativeCertificate className="w-40 h-52 bottom-10 -right-12 rotate-[15deg] animate-float" />
+      <DecorativeCertificate className="hidden md:block w-32 h-40 top-1/3 -right-8 rotate-[-10deg] animate-float [animation-delay:-4s]" />
+
+      <div className="relative z-10">
         {renderCertificate()}
         <div className="flex justify-center items-center flex-wrap gap-4 mt-8">
           <button
