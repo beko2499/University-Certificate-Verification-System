@@ -5,6 +5,19 @@ import { SearchIcon, QrCodeIcon, UploadIcon } from './Icons';
 // Since we are loading from CDN, we need to declare these on the window object for TypeScript
 declare const Html5Qrcode: any;
 
+// Decorative component for visual flair
+const DecorativeBlob: React.FC<{ baseClasses: string, isLoaded: boolean }> = ({ baseClasses, isLoaded }) => {
+    const initialTransform = baseClasses.includes('left') ? '-translate-x-full' : 'translate-x-full';
+    const finalTransform = 'translate-x-0';
+
+    return (
+        <div aria-hidden="true" className={`absolute -z-0 ${baseClasses} transition-transform duration-1000 ease-in-out transform ${isLoaded ? finalTransform : initialTransform}`}>
+            <div className="w-48 h-48 bg-sky-100 rounded-full opacity-60"></div>
+            <div className="w-32 h-32 bg-sky-200 rounded-full opacity-50 absolute -bottom-8 -right-8"></div>
+        </div>
+    );
+};
+
 interface VerificationPageProps {
   certificates: Certificate[];
   setPage: (page: Page) => void;
@@ -20,9 +33,16 @@ const VerificationPage: React.FC<VerificationPageProps> = ({ certificates, setPa
   const [verificationError, setVerificationError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isScanning, setIsScanning] = useState(false);
+  const [isPageLoaded, setIsPageLoaded] = useState(false);
   
   const scannerRef = useRef<any>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    // Trigger animation shortly after mount
+    const timer = setTimeout(() => setIsPageLoaded(true), 100);
+    return () => clearTimeout(timer);
+  }, []);
 
   const handleVerify = (idToVerify: string) => {
     if (!idToVerify.trim()) {
@@ -115,10 +135,14 @@ const VerificationPage: React.FC<VerificationPageProps> = ({ certificates, setPa
 
 
   return (
-    <div className="flex-grow flex items-center justify-center p-4">
+    <div className="flex-grow flex items-center justify-center p-4 relative overflow-hidden">
+      {/* Decorative elements that slide in */}
+      <DecorativeBlob baseClasses="top-1/4 -left-24" isLoaded={isPageLoaded} />
+      <DecorativeBlob baseClasses="bottom-1/4 -right-24" isLoaded={isPageLoaded} />
+
       {/* A hidden element for the file scanner to attach to, preventing errors */}
       <div id="qr-file-reader" style={{ display: 'none' }}></div>
-      <div className="w-full max-w-lg">
+      <div className="w-full max-w-lg z-10">
         <div className="bg-white p-8 md:p-12 rounded-2xl shadow-2xl">
           <div className="text-center">
             <h2 className="text-3xl font-bold text-gray-800">{t('verifyTitle')}</h2>
